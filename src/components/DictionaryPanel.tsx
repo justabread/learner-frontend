@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import './DictionaryPanel.css'
 
-const BACKEND_URL = 'http://localhost:3001'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:3001'
 
 interface DictionaryEntry {
   english: string
