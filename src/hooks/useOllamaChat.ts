@@ -1,12 +1,7 @@
 import { useState, useCallback } from 'react'
 import type { Message } from '../types'
-import baseTeacher from '../../../learner-prompts/base_teacher.md?raw'
-import freeform from '../../../learner-prompts/modes/freeform.md?raw'
 
-const OLLAMA_URL = 'http://localhost:11434/api/chat'
-const BACKEND_URL = 'http://localhost:3001'
-const MODEL = 'llama3.1:8b'
-const SYSTEM_PROMPT = `${baseTeacher}\n\n${freeform}`
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:3001'
 
 const CORRECTION_REGEX = /<corrections>\n([\s\S]+?)\n<\/corrections>/g
 const DICTIONARY_REGEX = /<dictionary>\n([\s\S]+?)\n<\/dictionary>/g
@@ -69,21 +64,13 @@ export function useOllamaChat(onDictionaryUpdate: () => void) {
       .map(m => ({ role: m.role, content: m.content }))
 
     try {
-      const response = await fetch(OLLAMA_URL, {
+      const response = await fetch(`${BACKEND_URL}/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: MODEL,
-          stream: true,
-          messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            ...history,
-            { role: 'user', content: text.trim() },
-          ],
-        }),
+        body: JSON.stringify([...history, { role: 'user', content: text.trim() }]),
       })
 
-      if (!response.ok || !response.body) throw new Error(`Ollama error: ${response.status}`)
+      if (!response.ok || !response.body) throw new Error(`Backend error: ${response.status}`)
 
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
@@ -95,15 +82,14 @@ export function useOllamaChat(onDictionaryUpdate: () => void) {
 
         const chunk = decoder.decode(value, { stream: true })
         for (const line of chunk.split('\n')) {
-          if (!line.trim()) continue
+          if (!line.startsWith('data: ')) continue
+          const data = line.slice(6).trim()
+          if (data === '[DONE]') break
           try {
-            const json = JSON.parse(line)
-            const token: string = json.message?.content ?? ''
-            accumulated += token
+            const json = JSON.parse(data)
+            accumulated += json.token ?? ''
             setMessages(prev =>
-              prev.map(m =>
-                m.id === assistantId ? { ...m, content: accumulated } : m
-              )
+              prev.map(m => m.id === assistantId ? { ...m, content: accumulated } : m)
             )
           } catch {
             // ignore malformed lines
@@ -131,7 +117,7 @@ export function useOllamaChat(onDictionaryUpdate: () => void) {
       setMessages(prev =>
         prev.map(m =>
           m.id === assistantId
-            ? { ...m, content: 'Error: could not reach Ollama. Is it running?', pending: false }
+            ? { ...m, content: 'Error: could not reach the backend. Is it running?', pending: false }
             : m
         )
       )
