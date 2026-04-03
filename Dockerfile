@@ -1,9 +1,9 @@
 FROM node:23-alpine
-# Mirror the host structure so ../../../learner-prompts resolves correctly from src/hooks/
-WORKDIR /workspace/learner-frontend
+ARG VITE_BACKEND_URL=http://localhost:3001
+ENV VITE_BACKEND_URL=$VITE_BACKEND_URL
+WORKDIR /app
 COPY learner-frontend/package*.json ./
 RUN npm install
-COPY learner-prompts /workspace/learner-prompts
 COPY learner-frontend .
 EXPOSE 5173
 CMD ["npm", "run", "dev", "--", "--host"]
