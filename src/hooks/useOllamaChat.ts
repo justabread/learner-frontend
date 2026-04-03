@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import type { Message } from '../types'
-import baseTeacher from '../../../prompts/base_teacher.md?raw'
-import freeform from '../../../prompts/modes/freeform.md?raw'
+import baseTeacher from '../../../learner-prompts/base_teacher.md?raw'
+import freeform from '../../../learner-prompts/modes/freeform.md?raw'
 
 const OLLAMA_URL = 'http://localhost:11434/api/chat'
 const BACKEND_URL = 'http://localhost:3001'
