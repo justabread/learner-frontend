@@ -1,0 +1,62 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.app-chat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.app-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  background: #111827;
+  border-bottom: 1px solid #1f2937;
+  flex-shrink: 0;
+}
+
+.app-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  letter-spacing: 0.02em;
+}
+
+.app-subtitle {
+  font-size: 0.8rem;
+  color: #6b7280;
+  flex: 1;
+}
+
+.app-dict-toggle {
+  background: none;
+  border: 1px solid #374151;
+  color: #9ca3af;
+  border-radius: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.app-dict-toggle:hover {
+  border-color: #6b7280;
+  color: #e2e8f0;
+}
+
+.app-dict-toggle--active {
+  border-color: #2563eb;
+  color: #60a5fa;
+}

@@ -1,0 +1,91 @@
+.dictionary-panel {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.25s ease;
+  background: #111827;
+  border-left: 1px solid #1f2937;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.dictionary-panel--open {
+  width: 260px;
+}
+
+.dictionary-panel__title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #6b7280;
+  margin: 0;
+  padding: 1rem 1rem 0.75rem;
+  border-bottom: 1px solid #1f2937;
+  white-space: nowrap;
+}
+
+.dictionary-panel__empty {
+  font-size: 0.82rem;
+  color: #4b5563;
+  padding: 1rem;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.dictionary-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.dictionary-panel__entry {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.dictionary-panel__entry:hover {
+  background: #1e2433;
+}
+
+.dictionary-panel__delete {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: #4b5563;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.25rem;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.dictionary-panel__entry:hover .dictionary-panel__delete {
+  opacity: 1;
+}
+
+.dictionary-panel__delete:hover {
+  color: #ef4444;
+}
+
+.dictionary-panel__english {
+  color: #9ca3af;
+}
+
+.dictionary-panel__arrow {
+  color: #374151;
+  font-size: 0.8rem;
+}
+
+.dictionary-panel__swedish {
+  color: #e2e8f0;
+  font-weight: 500;
+}
