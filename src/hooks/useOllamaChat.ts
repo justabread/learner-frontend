@@ -8,8 +8,8 @@ const BACKEND_URL = 'http://localhost:3001'
 const MODEL = 'llama3.1:8b'
 const SYSTEM_PROMPT = `${baseTeacher}\n\n${freeform}`
 
-const CORRECTION_REGEX = /\n*---\nCorrections:\n([\s\S]+?)\n---/g
-const DICTIONARY_REGEX = /\n*---\nDictionary:\n([\s\S]+?)\n---/g
+const CORRECTION_REGEX = /<corrections>\n([\s\S]+?)\n<\/corrections>/g
+const DICTIONARY_REGEX = /<dictionary>\n([\s\S]+?)\n<\/dictionary>/g
 
 function parseBlocks(content: string): {
   reply: string
